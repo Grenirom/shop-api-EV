@@ -7,7 +7,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 
-from apps.generals.send_mail import send_activation_email, send_reset_password_email
+from apps.account.tasks import send_activation_email_task, send_reset_password_email_task
 from apps.generals.generate_reset_token import generate_reset_password_token
 
 from .serializers import RegisterSerializer, LogOutSerializer, ResetPasswordSerializer, ResetPasswordConfirmSerializer
@@ -27,7 +27,7 @@ class RegisterView(APIView):
 
         if user:
             try:
-                send_activation_email(email=user.email, code=user.activation_code)
+                send_activation_email_task.delay(email=user.email, code=user.activation_code)
             except Exception as e:
                 return Response({
                     'msg': 'Во время отправки письма на почту возникла ошибка',
@@ -84,7 +84,7 @@ class ResetPasswordView(APIView):
         
         reset_code = generate_reset_password_token()
         UserResetPasswordToken.objects.create(user=user, token=reset_code)
-        send_reset_password_email(email=email, reset_token=reset_code)
+        send_reset_password_email_task.delay(email=email, reset_token=reset_code)
         return Response({
             'msg': 'Вам на почту отправлено письмо с инструкцией по сбросу пароля'
         })
