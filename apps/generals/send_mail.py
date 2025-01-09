@@ -12,3 +12,14 @@ def send_activation_email(email, code):
         [email],
         fail_silently=False
     )
+
+
+def send_reset_password_email(email, reset_token):
+    send_mail(
+        subject='Сброс пароля',
+        message=f'Для сброса пароля, вам требуется скопировать код ниже и ввести его на сайте\n{reset_token}',
+        from_email='ngrebnev17@gmail.com',
+        recipient_list=[email],
+        fail_silently=False
+    )
+    

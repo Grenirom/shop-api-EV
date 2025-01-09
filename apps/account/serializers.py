@@ -26,3 +26,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
     
+
+class LogOutSerializer(serializers.Serializer):
+    refresh_token = serializers.CharField(required=True, write_only=True)
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+
+class ResetPasswordConfirmSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=6, required=True)
+    new_password = serializers.CharField(min_length=8, write_only=True, required=True)
+    new_password_confirm = serializers.CharField(min_length=8, write_only=True, required=True)
+
+    def validate(self, attrs):
+        p1 = attrs.get('new_password')
+        p2 = attrs.pop('new_password_confirm')
+
+        if p2 != p1:
+            raise serializers.ValidationError('Passwords didn\'t match')
+        return attrs
+    
