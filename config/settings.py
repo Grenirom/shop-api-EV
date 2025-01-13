@@ -30,7 +30,8 @@ ADDITIONAL_APPS = [
 
 OWN_APPS = [
     'apps.account',
-    'apps.category'
+    'apps.category',
+    'apps.product',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + ADDITIONAL_APPS + OWN_APPS
