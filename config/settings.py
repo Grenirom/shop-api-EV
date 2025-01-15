@@ -33,6 +33,7 @@ OWN_APPS = [
     'apps.category',
     'apps.product',
     'apps.order',
+    'apps.review',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + ADDITIONAL_APPS + OWN_APPS
