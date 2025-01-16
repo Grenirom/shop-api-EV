@@ -24,7 +24,7 @@ class CommentCreateView(generics.CreateAPIView):
 
 class RatingDeleteView(generics.DestroyAPIView):
     queryset = Rating.objects.all()
-    permission_classes = [IsOwner, ]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
 
     def get_queryset(self):
         return Rating.objects.filter(owner=self.request.user)
@@ -32,7 +32,7 @@ class RatingDeleteView(generics.DestroyAPIView):
 
 class CommentDeleteView(generics.DestroyAPIView):
     queryset = Comment.objects.all()
-    permission_classes = [IsOwner, ]
+    permission_classes = [permissions.IsAuthenticated, IsOwner]
 
     def get_queryset(self):
         return Comment.objects.filter(owner=self.request.user)

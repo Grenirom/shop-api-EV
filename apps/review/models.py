@@ -7,13 +7,6 @@ User = get_user_model()
 
 
 class Rating(models.Model):
-    RATING_CHOICES = (
-        (1.0, 'Too bad'),
-        (2.0, 'Bad'),
-        (3.0, 'ok'),
-        (4.0, 'good'),
-        (5.0, 'excellent')
-    )
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -24,7 +17,7 @@ class Rating(models.Model):
         on_delete=models.CASCADE,
         related_name='reviews'
     )
-    rating = models.DecimalField(choices=RATING_CHOICES, max_digits=1, decimal_places=1)
+    rating = models.DecimalField(max_digits=2, decimal_places=1)
 
 
 class Comment(models.Model):

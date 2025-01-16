@@ -26,10 +26,6 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductDetailSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    def retrieve(self, request, *args, **kwargs):
-        print(request.content_type, '!!!!!!!!!!')
-        return super().retrieve(request, *args, **kwargs)
-
 
 class ProductCreateView(generics.CreateAPIView):
     serializer_class = ProductCreateSerializer
