@@ -67,6 +67,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    product = serializers.ReadOnlyField(source='product.title')
+
     class Meta:
         model = ProductImage
         fields = '__all__'
