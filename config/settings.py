@@ -10,7 +10,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', '13.60.216.99']
+ALLOWED_HOSTS = ['127.0.0.1', '13.60.216.99', 'localhost']
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -26,7 +26,8 @@ ADDITIONAL_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
-    'drf_yasg'
+    'drf_yasg',
+    'channels',
 
 ]
 
@@ -36,6 +37,7 @@ OWN_APPS = [
     'apps.product',
     'apps.order',
     'apps.review',
+    'apps.chat',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + ADDITIONAL_APPS + OWN_APPS
@@ -175,3 +177,51 @@ REDIS_PORT = '6379'
 
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT
+
+
+# LOGGING = {
+#     'version': 1,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{asctime} - {levelname} - {module} - {message}',
+#             'style': '{',
+#         },
+#         'simple': {
+#             'format': '{message}\n',
+#             'style': '{',
+#         },
+#     },
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         },
+#         'django.request': {
+#             'handlers': ['console'],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         }
+#     }
+# }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {"hosts": [("127.0.0.1", 6379)]},
+    },
+}
+
+ASGI_APPLICATION = "config.asgi.application"

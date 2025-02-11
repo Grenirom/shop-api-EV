@@ -8,6 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.db.models import Avg
 
 from apps.generals.permissions import IsOwner, IsProductOwner
 from apps.generals.filters import ProductFilter
@@ -23,9 +24,9 @@ class StandartResultPagination(PageNumberPagination):
 
 @method_decorator(cache_page(60 * 5), name='dispatch')
 class ProductListView(generics.ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related('reviews').annotate(avg_rating=Avg('reviews__rating'))
     serializer_class = ProductListSerializer
-    pagination_class = StandartResultPagination
+    # pagination_class = StandartResultPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = ProductFilter
     search_fields = ['title', ]
