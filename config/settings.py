@@ -13,6 +13,7 @@ DEBUG = config('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1', '13.60.216.99', 'localhost']
 
 DJANGO_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -28,6 +29,7 @@ ADDITIONAL_APPS = [
     'django_filters',
     'drf_yasg',
     'channels',
+    'corsheaders',
 
 ]
 
@@ -43,6 +45,7 @@ OWN_APPS = [
 INSTALLED_APPS = DJANGO_APPS + ADDITIONAL_APPS + OWN_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -225,3 +228,16 @@ CHANNEL_LAYERS = {
 }
 
 ASGI_APPLICATION = "config.asgi.application"
+
+# Настройки CORS
+
+CORS_ALLOW_ALL_ORIGINS = True   # Позволяет отправлять запроосы с любых источников
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://example.com",
+]
+
+CORS_ALLOWED_METHODS = [
+    "GET", "POST", "DELETE"
+]
